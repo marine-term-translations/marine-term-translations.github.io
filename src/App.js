@@ -1,24 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, HashRouter} from 'react-router-dom';
+import MarckdownViewer from './components/MarckdownViewer'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HashRouter >
+      <div className="App">
+        <Routes>
+          <Route path='/' element={
+            <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/README.md"/>
+          } />
+          <Route path='/ldes_translation_gh_action' element=
+          {
+            <MarckdownViewer fullLink="https://raw.githubusercontent.com/vliz-be-opsci/ldes_translation_gh_action/main/README.md" title="ldes_translation_gh_action Information"/>
+          } />
+          
+        </Routes>
+      </div>
+    </HashRouter >
   );
 }
 
