@@ -19,11 +19,11 @@ const MarckdownViewer = ({ fullLink, title }) => {
   }
 
   if (error) {
-      return <div>Error: {error}</div>;
+    return <div>Error: {error}</div>;
   }
 
   if (!mdContent) {
-      return <div>Error loading content.</div>;
+    return <div>Error loading content.</div>;
   }
 
   return (
