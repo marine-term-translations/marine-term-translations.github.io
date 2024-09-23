@@ -13,7 +13,7 @@ const NavBar = () => {
                     <Nav className="m-auto">
                         <NavDropdown title="Translater" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#list">List of repository</NavDropdown.Item>
-                            <NavDropdown.Item href="#about">About the use of the site</NavDropdown.Item>
+                            <NavDropdown.Item href="#about">About the use of translate site</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Developer" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#front">Front-End's information</NavDropdown.Item>

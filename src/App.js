@@ -14,16 +14,16 @@ function App() {
           <Route path='/' element={
             <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/README.md"/>
           } />
+          {/* Navigation */}
           {/* Translater */}
           <Route path='/list' element=
           {
-            //!\\
             <ListRepo/>
           } />
           <Route path='/about' element=
           {
             //!\\
-            <MarckdownViewer fullLink=""/>
+            <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/Front-End/refs/heads/main/Information/Usage.md"/>
           } />
           {/* Developer */}
           <Route path='/front' element=
@@ -33,7 +33,6 @@ function App() {
           } />
           <Route path='/back' element=
           {
-            //!\\
             <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/Back-End/main/Readme.md"/>
           } />
           <Route path='/gh_action' element=

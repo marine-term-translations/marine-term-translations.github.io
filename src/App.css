@@ -4,8 +4,9 @@
   width: 80vw;
 }
 img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
+  align-items: center;
 }
 .App-logo {
   height: 40vmin;
