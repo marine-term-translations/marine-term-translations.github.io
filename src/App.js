@@ -1,20 +1,55 @@
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { Routes, Route, HashRouter} from 'react-router-dom';
-import MarckdownViewer from './components/MarckdownViewer'
+import NavBar from './components/NavBar';
+import MarckdownViewer from './components/MarckdownViewer';
+import ListRepo from './components/ListRepo';
 
 function App() {
+  
   return (
     <HashRouter >
       <div className="App">
+        <NavBar/>
         <Routes>
           <Route path='/' element={
             <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/README.md"/>
           } />
-          <Route path='/ldes_translation_gh_action' element=
+          {/* Translater */}
+          <Route path='/list' element=
           {
-            <MarckdownViewer fullLink="https://raw.githubusercontent.com/vliz-be-opsci/ldes_translation_gh_action/main/README.md" title="ldes_translation_gh_action Information"/>
+            //!\\
+            <ListRepo/>
           } />
-          
+          <Route path='/about' element=
+          {
+            //!\\
+            <MarckdownViewer fullLink=""/>
+          } />
+          {/* Developer */}
+          <Route path='/front' element=
+          {
+            //!\\
+            <MarckdownViewer fullLink=""/>
+          } />
+          <Route path='/back' element=
+          {
+            //!\\
+            <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/Back-End/main/Readme.md"/>
+          } />
+          <Route path='/gh_action' element=
+          {
+            <MarckdownViewer fullLink="https://raw.githubusercontent.com/vliz-be-opsci/ldes_translation_gh_action/main/README.md"/>
+          } />
+          <Route path='/general' element=
+          {
+            //!\\
+            <MarckdownViewer fullLink=""/>
+          } />
+          <Route path='/instruction' element=
+          {
+            //!\\
+            <MarckdownViewer fullLink=""/>
+          } />
         </Routes>
       </div>
     </HashRouter >
