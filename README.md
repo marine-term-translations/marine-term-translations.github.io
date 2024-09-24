@@ -6,6 +6,10 @@ This React-based web application allows users to browse GitHub repositories from
 
 To deploy this project:
 1. Clone the repository.
+   ```bash
+   git clone https://github.com/marine-term-translations/marine-term-translations.github.io.git
+   cd project-repo
+   ```
 2. Install dependencies using 
    ```bash
    npm install
