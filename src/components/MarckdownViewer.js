@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { Container, Spinner, Alert } from 'react-bootstrap';
 import Markdown from 'marked-react';
 import Lowlight from 'react-lowlight';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -57,7 +57,7 @@ const MarckdownViewer = ({ fullLink = null}) => {
 
   const getFirstLine = (text) => {
     const lines = text.split('\n');
-    return lines[0];
+    return lines[0].slice(2);
   };
 
   const renderer = {
@@ -67,15 +67,28 @@ const MarckdownViewer = ({ fullLink = null}) => {
   };
 
   if (!fullLink) {
-    return <div>The link for this page was not filled</div>;
+    return (
+      <Container className="text-center mt-5 m-auto">
+        <Alert variant="danger">The link for this page was not filled</Alert>
+      </Container>
+    );
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Container className="text-center m-5">
+        <Spinner animation="border" />
+        <p>Loading...</p>
+      </Container>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <Container className="text-center mt-5">
+        <Alert variant="danger">{error}</Alert>
+      </Container>
+    );
   }
 
   if (!mdContent) {
@@ -85,12 +98,15 @@ const MarckdownViewer = ({ fullLink = null}) => {
   const firstLine = getFirstLine(mdContent);
 
   return (
-    <div className='mt-5'>
+    <Container className='mt-5'>
       {firstLine && (
         <h1 className='m-5'><a href={link}>{firstLine}</a></h1>
       )}
       <Markdown value={mdContent.split('\n').slice(1).join('\n')} renderer={renderer} openLinksInNewTab breaks gmf/>
-    </div>
+      <br/>
+      <br/>
+      <br/>
+    </Container>
   );
 };
 

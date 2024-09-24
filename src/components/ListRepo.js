@@ -16,7 +16,7 @@ const ListRepo = () => {
                 const response = await axios.get(`https://api.github.com/orgs/${owner}/repos`);
                 
                 const repos = response.data
-                    .filter(repo => repo.name.includes('Repo') || repo.name.includes('Front'))
+                    .filter(repo => repo.name.includes('Repo'))
                     .map(repo => ({ name: repo.name }));
 
                 setRepos(repos);
@@ -42,7 +42,7 @@ const ListRepo = () => {
 
     if (loading) {
         return (
-            <Container className="text-center mt-5">
+            <Container className="text-center m-5">
                 <Spinner animation="border" />
                 <p>Loading...</p>
             </Container>

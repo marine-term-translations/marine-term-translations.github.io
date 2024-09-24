@@ -12,9 +12,10 @@ function App() {
         <NavBar/>
         <Routes>
           <Route path='/' element={
-            <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/README.md"/>
+            <MarckdownViewer fullLink=""/>
           } />
           {/* Navigation */}
+
           {/* Translater */}
           <Route path='/list' element=
           {
@@ -22,9 +23,9 @@ function App() {
           } />
           <Route path='/about' element=
           {
-            //!\\
             <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/Front-End/refs/heads/main/Information/Usage.md"/>
           } />
+
           {/* Developer */}
           <Route path='/front' element=
           {
@@ -42,8 +43,10 @@ function App() {
           <Route path='/general' element=
           {
             //!\\
-            <MarckdownViewer fullLink=""/>
+            <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/README.md"/>
           } />
+
+          {/* Administrator */}
           <Route path='/instruction' element=
           {
             //!\\
