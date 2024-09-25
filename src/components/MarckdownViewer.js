@@ -100,7 +100,7 @@ const MarckdownViewer = ({ fullLink = null}) => {
   return (
     <Container className='mt-5'>
       {firstLine && (
-        <h1 className='m-5'><a href={link}>{firstLine}</a></h1>
+        <h1 className='m-5' style={{textAlign:"center"}}><a href={link}>{firstLine}</a></h1>
       )}
       <Markdown value={mdContent.split('\n').slice(1).join('\n')} renderer={renderer} openLinksInNewTab breaks gmf/>
       <br/>
