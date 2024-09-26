@@ -13,8 +13,7 @@ function App() {
         <Routes>
           <Route path='/' element=
           {
-            //!\\
-            <MarckdownViewer fullLink=""/>
+            <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/siteInfo.md"/>
           } />
           {/* Navigation */}
 
