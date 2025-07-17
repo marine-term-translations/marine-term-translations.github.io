@@ -1,3 +1,5 @@
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/marine-term-translations/marine-term-translations.github.io?utm_source=oss&utm_medium=github&utm_campaign=marine-term-translations%2Fmarine-term-translations.github.io&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+
 # Marine Term Translations General Site
 
 This React-based web application allows users to browse GitHub repositories from the 'marine-term-translations' organization that contain a specific keyword, currently set to 'Repo'. The site also displays Markdown files by fetching their content from GitHub. The app is composed of four main components: `App`, `NavBar`, `MarkdownViewer`, and `ListRepo`.
