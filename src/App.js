@@ -3,8 +3,17 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import MarckdownViewer from "./components/MarckdownViewer";
 import ListRepo from "./components/ListRepo";
+import ActiveTranslationSpaces from "./components/ActiveTranslationSpaces";
+import { useParams } from "react-router-dom";
 
 function App() {
+  // Component to handle dynamic translation repository routes
+  const TranslationRepo = () => {
+    const { repoName } = useParams();
+    const repoUrl = `https://raw.githubusercontent.com/marine-term-translations/${repoName}/main/README.md`;
+    return <MarckdownViewer fullLink={repoUrl} />;
+  };
+
   return (
     <HashRouter>
       <div className="App">
@@ -15,6 +24,7 @@ function App() {
             element={
               <>
                 <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/siteInfo.md" />
+                <ActiveTranslationSpaces />
                 <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/conventions.md" />
               </>
             }
@@ -65,6 +75,12 @@ function App() {
               //!\\
               <MarckdownViewer fullLink="" />
             }
+          />
+
+          {/* Dynamic routes for translation repositories */}
+          <Route
+            path="/:repoName"
+            element={<TranslationRepo />}
           />
         </Routes>
       </div>

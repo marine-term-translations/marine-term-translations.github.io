@@ -12,11 +12,62 @@ const ListRepo = () => {
     useEffect(() => {
         const fetchRepo = async () => {
             try {
+                // For testing purposes, we'll add some mock data
+                const useMockData = process.env.NODE_ENV === 'development';
+                
+                if (useMockData) {
+                    // Mock data for testing - same as ActiveTranslationSpaces
+                    const mockRepos = [
+                        {
+                            name: 'P02-NL',
+                            updated_at: '2024-01-15T10:30:00Z',
+                            description: 'Dutch translation for P02 vocabulary collection',
+                            html_url: 'https://github.com/marine-term-translations/P02-NL'
+                        },
+                        {
+                            name: 'P02-FR',
+                            updated_at: '2024-01-10T14:20:00Z',
+                            description: 'French translation for P02 vocabulary collection',
+                            html_url: 'https://github.com/marine-term-translations/P02-FR'
+                        },
+                        {
+                            name: 'L05-DE',
+                            updated_at: '2024-01-08T09:15:00Z',
+                            description: 'German translation for L05 vocabulary collection',
+                            html_url: 'https://github.com/marine-term-translations/L05-DE'
+                        },
+                        {
+                            name: 'P01-ES',
+                            updated_at: '2024-01-05T16:45:00Z',
+                            description: 'Spanish translation for P01 vocabulary collection',
+                            html_url: 'https://github.com/marine-term-translations/P01-ES'
+                        }
+                    ].map(repo => ({ name: repo.name })); // Keep the existing structure for now
+                    
+                    setRepos(mockRepos);
+                    setLoading(false);
+                    setError(null);
+                    return;
+                }
+
                 const owner = 'marine-term-translations';
                 const response = await axios.get(`https://api.github.com/orgs/${owner}/repos`);
                 
+                // Updated filtering logic based on the new requirements
+                // Look for repositories with "-" and language code pattern
                 const repos = response.data
-                    .filter(repo => repo.name.includes('Repo'))
+                    .filter(repo => {
+                        const name = repo.name;
+                        // Must contain at least one hyphen
+                        if (!name.includes('-')) return false;
+                        
+                        // Get the part after the last hyphen
+                        const parts = name.split('-');
+                        const lastPart = parts[parts.length - 1];
+                        
+                        // Check if it's a 2-letter language code (basic validation)
+                        return lastPart.length === 2 && /^[A-Z]{2}$/i.test(lastPart);
+                    })
                     .map(repo => ({ name: repo.name }));
 
                 setRepos(repos);
@@ -61,7 +112,7 @@ const ListRepo = () => {
         <Container className="mt-5">
             <Row>
                 <Col>
-                    <h1>List of Translate Sites</h1>
+                    <h1>Active Translation Spaces</h1>
                     <Form className="mb-3">
                         <Form.Control
                             type="text"
@@ -75,7 +126,7 @@ const ListRepo = () => {
                         {filteredRepos.length > 0 ? (
                             filteredRepos.map((repo, index) => (
                                 <ListGroup.Item key={index}>
-                                    <a href={`https://marine-term-translations.github.io/${repo.name}`}>
+                                    <a href={`#/${repo.name}`}>
                                         {repo.name}
                                     </a>
                                 </ListGroup.Item>
