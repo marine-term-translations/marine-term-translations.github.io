@@ -12,42 +12,7 @@ const ActiveTranslationSpaces = () => {
     const fetchActiveSpaces = async () => {
       try {
         // For testing purposes, we'll add some mock data
-        const useMockData = process.env.NODE_ENV === "developments";
-
-        if (useMockData) {
-          // Mock data for testing
-          const mockRepos = [
-            {
-              name: "P02-NL",
-              updated_at: "2024-01-15T10:30:00Z",
-              description: "Dutch translation for P02 vocabulary collection",
-              html_url: "https://github.com/marine-term-translations/P02-NL",
-            },
-            {
-              name: "P02-FR",
-              updated_at: "2024-01-10T14:20:00Z",
-              description: "French translation for P02 vocabulary collection",
-              html_url: "https://github.com/marine-term-translations/P02-FR",
-            },
-            {
-              name: "L05-DE",
-              updated_at: "2024-01-08T09:15:00Z",
-              description: "German translation for L05 vocabulary collection",
-              html_url: "https://github.com/marine-term-translations/L05-DE",
-            },
-            {
-              name: "P01-ES",
-              updated_at: "2024-01-05T16:45:00Z",
-              description: "Spanish translation for P01 vocabulary collection",
-              html_url: "https://github.com/marine-term-translations/P01-ES",
-            },
-          ];
-
-          setRepos(mockRepos);
-          setLoading(false);
-          setError(null);
-          return;
-        }
+        const useMockData = process.env.NODE_ENV === "development";
 
         const owner = "marine-term-translations";
         const response = await axios.get(
