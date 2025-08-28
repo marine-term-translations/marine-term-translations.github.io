@@ -23,6 +23,7 @@ const NavBar = () => {
                         </NavDropdown>
                         <NavDropdown title="Administrator" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#instruction">Instruction for repository</NavDropdown.Item>
+                            <NavDropdown.Item href="#admin-dashboard">Admin Dashboard</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

@@ -11,9 +11,6 @@ const ActiveTranslationSpaces = () => {
   useEffect(() => {
     const fetchActiveSpaces = async () => {
       try {
-        // For testing purposes, we'll add some mock data
-        const useMockData = process.env.NODE_ENV === "development";
-
         const owner = "marine-term-translations";
         const response = await axios.get(
           `https://api.github.com/orgs/${owner}/repos`
