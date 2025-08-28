@@ -1,10 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import apiService from '../services/apiService';
 
 const AuthContext = createContext();
-
-// Backend API base URL - adjust as needed
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -29,12 +26,8 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserInfo = React.useCallback(async (authToken) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/github/user`, {
-        headers: {
-          Authorization: authToken
-        }
-      });
-      setUser(response.data);
+      const userData = await apiService.getUserInfo(authToken);
+      setUser(userData);
       setIsAuthenticated(true);
     } catch (error) {
       console.error('Error fetching user info:', error);
@@ -58,8 +51,8 @@ export const AuthProvider = ({ children }) => {
 
   const getOAuthLink = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/github/oauth/link`);
-      return response.data;
+      const oauthData = await apiService.getOAuthLink();
+      return oauthData;
     } catch (error) {
       console.error('Error getting OAuth link:', error);
       throw error;
@@ -68,8 +61,8 @@ export const AuthProvider = ({ children }) => {
 
   const exchangeCodeForToken = async (code) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/github/token`, { code });
-      const { access_token } = response.data;
+      const tokenData = await apiService.exchangeCodeForToken(code);
+      const { access_token } = tokenData;
       
       if (access_token) {
         const fullToken = `token ${access_token}`;

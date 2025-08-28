@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Spinner, Alert, Button, Badge, Table, Form } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
-import axios from 'axios';
+import apiService from '../services/apiService';
 
 const AdminDashboard = () => {
   const { isAuthenticated, token, user, login, logout, exchangeCodeForToken } = useAuth();
@@ -13,55 +13,31 @@ const AdminDashboard = () => {
   const [loadingMembers, setLoadingMembers] = useState(false);
   const [actionLoading, setActionLoading] = useState({});
 
-  const ORG_NAME = 'marine-term-translations'; // GitHub organization name
-
   const loadOrganizationData = React.useCallback(async () => {
     try {
       setLoadingMembers(true);
 
-      // Load organization members
-      const membersResponse = await axios.get(`https://api.github.com/orgs/${ORG_NAME}/members`, {
-        headers: {
-          Authorization: token,
-          Accept: 'application/vnd.github.v3+json'
-        }
-      });
+      // Load organization members and teams using backend API
+      const [membersData, teamsData] = await Promise.all([
+        apiService.getOrganizationMembers(token),
+        apiService.getOrganizationTeams(token)
+      ]);
 
-      // Load organization teams
-      const teamsResponse = await axios.get(`https://api.github.com/orgs/${ORG_NAME}/teams`, {
-        headers: {
-          Authorization: token,
-          Accept: 'application/vnd.github.v3+json'
-        }
+      // For each member, get their team memberships from the teams data
+      const membersWithTeams = membersData.map(member => {
+        // Find teams where this member is included
+        const memberTeams = teamsData.filter(team => 
+          team.members && team.members.some(teamMember => teamMember.login === member.login)
+        );
+        
+        return {
+          ...member,
+          teams: memberTeams
+        };
       });
-
-      // For each member, get their team memberships
-      const membersWithTeams = await Promise.all(
-        membersResponse.data.map(async (member) => {
-          try {
-            const memberTeamsResponse = await axios.get(`https://api.github.com/orgs/${ORG_NAME}/members/${member.login}/teams`, {
-              headers: {
-                Authorization: token,
-                Accept: 'application/vnd.github.v3+json'
-              }
-            });
-            
-            return {
-              ...member,
-              teams: memberTeamsResponse.data
-            };
-          } catch (error) {
-            console.error(`Error fetching teams for ${member.login}:`, error);
-            return {
-              ...member,
-              teams: []
-            };
-          }
-        })
-      );
 
       setOrgMembers(membersWithTeams);
-      setTeams(teamsResponse.data);
+      setTeams(teamsData);
     } catch (error) {
       console.error('Error loading organization data:', error);
       setError('Failed to load organization data');
@@ -74,28 +50,10 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       
-      // Check if user is an admin of the organization
-      await axios.get(`https://api.github.com/orgs/${ORG_NAME}/members/${user.login}`, {
-        headers: {
-          Authorization: token,
-          Accept: 'application/vnd.github.v3+json'
-        }
-      });
-
-      // If we can see the membership, check the role
-      const membershipResponse = await axios.get(`https://api.github.com/orgs/${ORG_NAME}/memberships/${user.login}`, {
-        headers: {
-          Authorization: token,
-          Accept: 'application/vnd.github.v3+json'
-        }
-      });
-
-      const role = membershipResponse.data.role;
-      setIsAdmin(role === 'admin');
-
-      if (role === 'admin') {
-        await loadOrganizationData();
-      }
+      // Try to load organization data - if successful, user has admin access
+      // The backend endpoints will handle authorization validation
+      await loadOrganizationData();
+      setIsAdmin(true);
     } catch (error) {
       console.error('Error checking admin status:', error);
       if (error.response?.status === 404) {
@@ -105,10 +63,11 @@ const AdminDashboard = () => {
       } else {
         setError('Failed to verify organization membership');
       }
+      setIsAdmin(false);
     } finally {
       setLoading(false);
     }
-  }, [token, user, loadOrganizationData]);
+  }, [loadOrganizationData]);
 
   const handleOAuthCallback = React.useCallback(async (code) => {
     try {
@@ -147,22 +106,10 @@ const AdminDashboard = () => {
     setActionLoading(prev => ({ ...prev, [actionKey]: true }));
 
     try {
-      const url = `https://api.github.com/orgs/${ORG_NAME}/teams/${teamSlug}/memberships/${memberLogin}`;
-      
       if (action === 'add') {
-        await axios.put(url, { role: 'member' }, {
-          headers: {
-            Authorization: token,
-            Accept: 'application/vnd.github.v3+json'
-          }
-        });
+        await apiService.addUserToTeam(token, teamSlug, memberLogin);
       } else if (action === 'remove') {
-        await axios.delete(url, {
-          headers: {
-            Authorization: token,
-            Accept: 'application/vnd.github.v3+json'
-          }
-        });
+        await apiService.removeUserFromTeam(token, teamSlug, memberLogin);
       }
 
       // Reload organization data to reflect changes
@@ -311,9 +258,13 @@ const AdminDashboard = () => {
                               <img 
                                 src={member.avatar_url} 
                                 alt={member.login}
-                                width="30"
-                                height="30"
+                                width="24"
+                                height="24"
                                 className="rounded me-2"
+                                style={{ 
+                                  objectFit: 'cover',
+                                  flexShrink: 0
+                                }}
                               />
                               <div>
                                 <div><strong>{member.login}</strong></div>
