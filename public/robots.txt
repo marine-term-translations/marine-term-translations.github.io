@@ -1,3 +1,7 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /admin-dashboard
+Disallow: /instruction
+
+# Sitemap
+Sitemap: https://marine-term-translations.github.io/sitemap.xml
