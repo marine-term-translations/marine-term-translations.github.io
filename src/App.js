@@ -84,8 +84,6 @@ function App() {
     />,
     <Route key="admin-dashboard" path="/admin-dashboard" element={<AdminDashboardPage />} />,
 
-    /* Dynamic routes for translation repositories */
-    <Route key="repo" path="/:repoName" element={<TranslationRepoPage />} />,
   ];
 
   return (
