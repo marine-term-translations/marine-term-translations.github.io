@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 import axios from "axios";
 
 const ActiveTranslationSpaces = () => {
+  const { t } = useTranslation();
   const [repos, setRepos] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -45,12 +47,12 @@ const ActiveTranslationSpaces = () => {
       } catch (error) {
         console.error("Error fetching active translation spaces:", error);
         setLoading(false);
-        setError("Failed to fetch active translation spaces.");
+        setError(t('pages.failedToFetchSpaces'));
       }
     };
 
     fetchActiveSpaces();
-  }, []);
+  }, [t]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -65,7 +67,7 @@ const ActiveTranslationSpaces = () => {
     return (
       <Container className="text-center my-5">
         <Spinner animation="border" />
-        <p>Loading active translation spaces...</p>
+        <p>{t('pages.loadingActiveSpaces')}</p>
       </Container>
     );
   }
@@ -82,7 +84,7 @@ const ActiveTranslationSpaces = () => {
     <Container className="my-5">
       <Row>
         <Col>
-          <h2 className="mb-4">Active Translation Spaces</h2>
+          <h2 className="mb-4">{t('pages.activeTranslationSpaces')}</h2>
           {repos.length > 0 ? (
             <Row>
               {repos.map((repo, index) => (
@@ -96,14 +98,14 @@ const ActiveTranslationSpaces = () => {
                         </Card.Text>
                       )}
                       <Card.Text className="text-muted small mt-auto">
-                        Last updated: {formatDate(repo.updated_at)}
+                        {t('pages.lastUpdated', { date: formatDate(repo.updated_at) })}
                       </Card.Text>
                       <div className="mt-2">
                         <Card.Link
                           href={`/${repo.name}`}
                           className="btn btn-primary btn-sm"
                         >
-                          Translate
+                          {t('pages.translate')}
                         </Card.Link>
                         <Card.Link
                           href={repo.html_url}
@@ -111,7 +113,7 @@ const ActiveTranslationSpaces = () => {
                           rel="noopener noreferrer"
                           className="btn btn-outline-secondary btn-sm ms-2"
                         >
-                          GitHub
+                          {t('pages.github')}
                         </Card.Link>
                       </div>
                     </Card.Body>
@@ -121,9 +123,7 @@ const ActiveTranslationSpaces = () => {
             </Row>
           ) : (
             <Alert variant="info">
-              No active translation spaces found. Translation repositories
-              should follow the naming convention: VocabularyName-LanguageCode
-              (e.g., P02-NL, P02-FR).
+              {t('pages.noActiveSpaces')}
             </Alert>
           )}
         </Col>

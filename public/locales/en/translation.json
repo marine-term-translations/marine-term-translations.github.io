@@ -1,0 +1,50 @@
+{
+  "navigation": {
+    "brand": "Marine Term Translations",
+    "translator": "Translator",
+    "developer": "Developer",
+    "administrator": "Administrator",
+    "listRepo": "List of repository",
+    "aboutUse": "About the use of translate site",
+    "frontEnd": "Front-End's information",
+    "backEnd": "Back-End's information",
+    "ghAction": "GitHub action's information",
+    "general": "General page information",
+    "instruction": "Instruction for repository",
+    "adminDashboard": "Admin Dashboard"
+  },
+  "pages": {
+    "activeTranslationSpaces": "Active Translation Spaces",
+    "loading": "Loading...",
+    "loadingActiveSpaces": "Loading active translation spaces...",
+    "noActiveSpaces": "No active translation spaces found. Translation repositories should follow the naming convention: VocabularyName-LanguageCode (e.g., P02-NL, P02-FR).",
+    "lastUpdated": "Last updated: {{date}}",
+    "translate": "Translate",
+    "github": "GitHub",
+    "searchRepositories": "Search repositories",
+    "failedToFetch": "Failed to fetch the list of repositories.",
+    "failedToFetchSpaces": "Failed to fetch active translation spaces.",
+    "linkNotFilled": "The link for this page was not filled",
+    "errorLoadingContent": "Error loading content."
+  },
+  "languageNotSupported": {
+    "title": "Language Not Supported",
+    "message": "We're sorry, but your preferred language is not yet supported in our application.",
+    "explanation": "We are continuously working to expand our language support and would love to include your language in the future.",
+    "contactTitle": "Request Language Support",
+    "contactMessage": "If you would like to request support for your language, please contact us at:",
+    "contactEmail": "opsci@vliz.be",
+    "communityTitle": "Help Build a Community",
+    "communityMessage": "We encourage you to help build a community for your language. Your contribution can make a significant difference in making marine term translations accessible to more researchers worldwide.",
+    "availableLanguages": "Available languages:",
+    "english": "English",
+    "french": "French",
+    "dutch": "Dutch"
+  },
+  "language": {
+    "switcher": "Language",
+    "en": "English",
+    "fr": "Français",
+    "nl": "Nederlands"
+  }
+}

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, ListGroup, Spinner, Alert, Form } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 const ListRepo = () => {
+    const { t } = useTranslation();
     const [repos, setRepos] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -76,12 +78,12 @@ const ListRepo = () => {
             } catch (error) {
                 console.error('Error fetching list of repositories:', error);
                 setLoading(false);
-                setError('Failed to fetch the list of repositories.');
+                setError(t('pages.failedToFetch'));
             }
         };
 
         fetchRepo();
-    }, []);
+    }, [t]);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -95,7 +97,7 @@ const ListRepo = () => {
         return (
             <Container className="text-center m-5">
                 <Spinner animation="border" />
-                <p>Loading...</p>
+                <p>{t('pages.loading')}</p>
             </Container>
         );
     }
@@ -112,11 +114,11 @@ const ListRepo = () => {
         <Container className="mt-5">
             <Row>
                 <Col>
-                    <h1>Active Translation Spaces</h1>
+                    <h1>{t('pages.activeTranslationSpaces')}</h1>
                     <Form className="mb-3">
                         <Form.Control
                             type="text"
-                            placeholder="Search repositories"
+                            placeholder={t('pages.searchRepositories')}
                             value={searchTerm}
                             onChange={handleSearchChange}
                         />
