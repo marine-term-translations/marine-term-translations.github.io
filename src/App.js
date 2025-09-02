@@ -18,7 +18,6 @@ import BackendDocsPage from "./pages/BackendDocsPage";
 import GitHubActionDocsPage from "./pages/GitHubActionDocsPage";
 import GeneralDocsPage from "./pages/GeneralDocsPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
-import TranslationRepoPage from "./pages/TranslationRepoPage";
 
 function App() {
   // Component to handle language routing
