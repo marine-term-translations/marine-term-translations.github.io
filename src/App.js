@@ -73,7 +73,11 @@ function App() {
     /* Developer */
     <Route key="front" path="/front" element={<FrontendDocsPage />} />,
     <Route key="back" path="/back" element={<BackendDocsPage />} />,
-    <Route key="gh_action" path="/gh_action" element={<GitHubActionDocsPage />} />,
+    <Route
+      key="gh_action"
+      path="/gh_action"
+      element={<GitHubActionDocsPage />}
+    />,
     <Route key="general" path="/general" element={<GeneralDocsPage />} />,
 
     /* Administrator */
@@ -82,8 +86,13 @@ function App() {
       path="/instruction"
       element={<MarckdownViewer fullLink="" />}
     />,
-    <Route key="admin-dashboard" path="/admin-dashboard" element={<AdminDashboardPage />} />,
+    <Route
+      key="admin-dashboard"
+      path="/admin-dashboard"
+      element={<AdminDashboardPage />}
+    />,
 
+    <Route key="not-found" path="*" element={<LanguageNotSupported />} />,
   ];
 
   return (
