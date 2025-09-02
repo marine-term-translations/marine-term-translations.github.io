@@ -1,0 +1,50 @@
+{
+  "navigation": {
+    "brand": "Mariene Term Vertalingen",
+    "translator": "Vertaler",
+    "developer": "Ontwikkelaar",
+    "administrator": "Beheerder",
+    "listRepo": "Lijst van repositories",
+    "aboutUse": "Over het gebruik van de vertaalsite",
+    "frontEnd": "Front-End informatie",
+    "backEnd": "Back-End informatie",
+    "ghAction": "GitHub actie informatie",
+    "general": "Algemene pagina informatie",
+    "instruction": "Instructies voor repository",
+    "adminDashboard": "Admin Dashboard"
+  },
+  "pages": {
+    "activeTranslationSpaces": "Actieve Vertaalruimtes",
+    "loading": "Laden...",
+    "loadingActiveSpaces": "Actieve vertaalruimtes laden...",
+    "noActiveSpaces": "Geen actieve vertaalruimtes gevonden. Vertaalrepositories moeten de naamconventie volgen: VocabulaireNaam-TaalCode (bijv. P02-NL, P02-FR).",
+    "lastUpdated": "Laatst bijgewerkt: {{date}}",
+    "translate": "Vertalen",
+    "github": "GitHub",
+    "searchRepositories": "Zoek repositories",
+    "failedToFetch": "Fout bij ophalen van de lijst met repositories.",
+    "failedToFetchSpaces": "Fout bij ophalen van actieve vertaalruimtes.",
+    "linkNotFilled": "De link voor deze pagina is niet ingevuld",
+    "errorLoadingContent": "Fout bij laden van inhoud."
+  },
+  "languageNotSupported": {
+    "title": "Taal Niet Ondersteund",
+    "message": "Het spijt ons, maar uw voorkeurstaal wordt nog niet ondersteund in onze applicatie.",
+    "explanation": "We werken voortdurend aan het uitbreiden van onze taalondersteuning en zouden uw taal graag in de toekomst opnemen.",
+    "contactTitle": "Taalondersteuning Aanvragen",
+    "contactMessage": "Als u ondersteuning voor uw taal wilt aanvragen, neem dan contact met ons op via:",
+    "contactEmail": "opsci@vliz.be",
+    "communityTitle": "Help een Gemeenschap Opbouwen",
+    "communityMessage": "We moedigen u aan om te helpen bij het opbouwen van een gemeenschap voor uw taal. Uw bijdrage kan een significant verschil maken in het toegankelijk maken van mariene termvertalingen voor meer onderzoekers wereldwijd.",
+    "availableLanguages": "Beschikbare talen:",
+    "english": "Engels",
+    "french": "Frans",
+    "dutch": "Nederlands"
+  },
+  "language": {
+    "switcher": "Taal",
+    "en": "English",
+    "fr": "Français",
+    "nl": "Nederlands"
+  }
+}

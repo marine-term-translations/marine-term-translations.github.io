@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Spinner, Alert } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 import Lowlight from "react-lowlight";
 import "bootstrap/dist/css/bootstrap.min.css";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -24,6 +25,7 @@ Lowlight.registerLanguage("http", html);
 Lowlight.registerLanguage("yaml", yaml);
 
 const MarckdownViewer = ({ fullLink = null }) => {
+  const { t } = useTranslation();
   const [link, setLink] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -67,14 +69,14 @@ const MarckdownViewer = ({ fullLink = null }) => {
       } catch (error) {
         console.error("Error fetching Marckdown:", error);
         setLoading(false);
-        setError("Failed to fetch the Marckdown from GitHub.");
+        setError(t('pages.errorLoadingContent'));
       }
     };
 
     if (fullLink) {
       fetchReadme();
     }
-  }, [fullLink]);
+  }, [fullLink, t]);
 
   const getFirstLine = (text) => {
     const lines = text.split("\n");
@@ -84,7 +86,7 @@ const MarckdownViewer = ({ fullLink = null }) => {
   if (!fullLink) {
     return (
       <Container className="text-center mt-5 m-auto">
-        <Alert variant="danger">The link for this page was not filled</Alert>
+        <Alert variant="danger">{t('pages.linkNotFilled')}</Alert>
       </Container>
     );
   }
@@ -93,7 +95,7 @@ const MarckdownViewer = ({ fullLink = null }) => {
     return (
       <Container className="text-center m-5">
         <Spinner animation="border" />
-        <p>Loading...</p>
+        <p>{t('pages.loading')}</p>
       </Container>
     );
   }
@@ -107,7 +109,7 @@ const MarckdownViewer = ({ fullLink = null }) => {
   }
 
   if (!mdContent) {
-    return <div>Error loading content.</div>;
+    return <div>{t('pages.errorLoadingContent')}</div>;
   }
 
   const firstLine = getFirstLine(mdContent);

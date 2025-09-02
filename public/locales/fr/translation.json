@@ -1,0 +1,50 @@
+{
+  "navigation": {
+    "brand": "Traductions de Termes Marins",
+    "translator": "Traducteur",
+    "developer": "Développeur",
+    "administrator": "Administrateur",
+    "listRepo": "Liste des dépôts",
+    "aboutUse": "À propos de l'utilisation du site de traduction",
+    "frontEnd": "Informations Front-End",
+    "backEnd": "Informations Back-End",
+    "ghAction": "Informations sur les actions GitHub",
+    "general": "Informations générales de la page",
+    "instruction": "Instructions pour le dépôt",
+    "adminDashboard": "Tableau de Bord Admin"
+  },
+  "pages": {
+    "activeTranslationSpaces": "Espaces de Traduction Actifs",
+    "loading": "Chargement...",
+    "loadingActiveSpaces": "Chargement des espaces de traduction actifs...",
+    "noActiveSpaces": "Aucun espace de traduction actif trouvé. Les dépôts de traduction doivent suivre la convention de nommage : NomVocabulaire-CodeLangue (ex. P02-NL, P02-FR).",
+    "lastUpdated": "Dernière mise à jour : {{date}}",
+    "translate": "Traduire",
+    "github": "GitHub",
+    "searchRepositories": "Rechercher des dépôts",
+    "failedToFetch": "Échec de récupération de la liste des dépôts.",
+    "failedToFetchSpaces": "Échec de récupération des espaces de traduction actifs.",
+    "linkNotFilled": "Le lien pour cette page n'a pas été renseigné",
+    "errorLoadingContent": "Erreur lors du chargement du contenu."
+  },
+  "languageNotSupported": {
+    "title": "Langue Non Supportée",
+    "message": "Nous sommes désolés, mais votre langue préférée n'est pas encore supportée dans notre application.",
+    "explanation": "Nous travaillons continuellement pour étendre notre support linguistique et aimerions inclure votre langue à l'avenir.",
+    "contactTitle": "Demander le Support d'une Langue",
+    "contactMessage": "Si vous souhaitez demander le support de votre langue, veuillez nous contacter à :",
+    "contactEmail": "opsci@vliz.be",
+    "communityTitle": "Aidez à Construire une Communauté",
+    "communityMessage": "Nous vous encourageons à aider à construire une communauté pour votre langue. Votre contribution peut faire une différence significative pour rendre les traductions de termes marins accessibles à plus de chercheurs dans le monde.",
+    "availableLanguages": "Langues disponibles :",
+    "english": "Anglais",
+    "french": "Français",
+    "dutch": "Néerlandais"
+  },
+  "language": {
+    "switcher": "Langue",
+    "en": "English",
+    "fr": "Français",
+    "nl": "Nederlands"
+  }
+}
