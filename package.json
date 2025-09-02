@@ -20,11 +20,13 @@
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
     "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-i18next": "^13.5.0",
     "react-lowlight": "^3.0.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
+    "react-snap": "^1.23.0",
     "rehype-highlight": "^7.0.2",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
@@ -32,7 +34,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "node scripts/generate-sitemap.js",
     "build": "react-scripts build",
+    "postbuild": "node scripts/generate-static-pages.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -55,5 +59,25 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "reactSnap": {
+    "source": "build",
+    "destination": "build",
+    "minifyHtml": {
+      "collapseWhitespace": false,
+      "removeComments": false
+    },
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage"
+    ],
+    "crawl": false,
+    "include": [
+      "/"
+    ],
+    "skipThirdPartyRequests": true,
+    "cacheAjaxRequests": false,
+    "preloadImages": false
   }
 }

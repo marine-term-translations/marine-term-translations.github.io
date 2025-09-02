@@ -2,9 +2,6 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import MarckdownViewer from "./components/MarckdownViewer";
-import ListRepo from "./components/ListRepo";
-import ActiveTranslationSpaces from "./components/ActiveTranslationSpaces";
-import AdminDashboard from "./components/AdminDashboard";
 import LanguageNotSupported from "./components/LanguageNotSupported";
 import { AuthProvider } from "./contexts/AuthContext";
 import { useParams } from "react-router-dom";
@@ -12,14 +9,18 @@ import { useTranslation } from "react-i18next";
 import { supportedLanguages } from "./i18n";
 import { useEffect } from "react";
 
-function App() {
-  // Component to handle dynamic translation repository routes
-  const TranslationRepo = () => {
-    const { repoName } = useParams();
-    const repoUrl = `https://raw.githubusercontent.com/marine-term-translations/${repoName}/main/README.md`;
-    return <MarckdownViewer fullLink={repoUrl} />;
-  };
+// Import SEO-optimized page components
+import HomePage from "./pages/HomePage";
+import ListPage from "./pages/ListPage";
+import AboutPage from "./pages/AboutPage";
+import FrontendDocsPage from "./pages/FrontendDocsPage";
+import BackendDocsPage from "./pages/BackendDocsPage";
+import GitHubActionDocsPage from "./pages/GitHubActionDocsPage";
+import GeneralDocsPage from "./pages/GeneralDocsPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import TranslationRepoPage from "./pages/TranslationRepoPage";
 
+function App() {
   // Component to handle language routing
   const LanguageWrapper = ({ children }) => {
     const { lang } = useParams();
@@ -63,59 +64,17 @@ function App() {
 
   // Main content routes - these are the routes that will be shared across languages
   const getMainRoutes = () => [
-    <Route
-      key="home"
-      path="/"
-      element={
-        <>
-          <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/siteInfo.md" />
-          <ActiveTranslationSpaces />
-        </>
-      }
-    />,
+    <Route key="home" path="/" element={<HomePage />} />,
 
     /* Translator */
-    <Route key="list" path="/list" element={<ListRepo />} />,
-    <Route
-      key="about"
-      path="/about"
-      element={
-        <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/Front-End/refs/heads/main/Information/Usage.md" />
-      }
-    />,
+    <Route key="list" path="/list" element={<ListPage />} />,
+    <Route key="about" path="/about" element={<AboutPage />} />,
 
     /* Developer */
-    <Route
-      key="front"
-      path="/front"
-      element={
-        <>
-          <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/React-Front-End/refs/heads/main/README.md" />
-          <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/conventions.md" />
-        </>
-      }
-    />,
-    <Route
-      key="back"
-      path="/back"
-      element={
-        <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/Back-End/main/Readme.md" />
-      }
-    />,
-    <Route
-      key="gh_action"
-      path="/gh_action"
-      element={
-        <MarckdownViewer fullLink="https://raw.githubusercontent.com/vliz-be-opsci/ldes_translation_gh_action/main/README.md" />
-      }
-    />,
-    <Route
-      key="general"
-      path="/general"
-      element={
-        <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/README.md" />
-      }
-    />,
+    <Route key="front" path="/front" element={<FrontendDocsPage />} />,
+    <Route key="back" path="/back" element={<BackendDocsPage />} />,
+    <Route key="gh_action" path="/gh_action" element={<GitHubActionDocsPage />} />,
+    <Route key="general" path="/general" element={<GeneralDocsPage />} />,
 
     /* Administrator */
     <Route
@@ -123,14 +82,10 @@ function App() {
       path="/instruction"
       element={<MarckdownViewer fullLink="" />}
     />,
-    <Route
-      key="admin-dashboard"
-      path="/admin-dashboard"
-      element={<AdminDashboard />}
-    />,
+    <Route key="admin-dashboard" path="/admin-dashboard" element={<AdminDashboardPage />} />,
 
     /* Dynamic routes for translation repositories */
-    <Route key="repo" path="/:repoName" element={<TranslationRepo />} />,
+    <Route key="repo" path="/:repoName" element={<TranslationRepoPage />} />,
   ];
 
   return (
