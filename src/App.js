@@ -4,6 +4,8 @@ import NavBar from "./components/NavBar";
 import MarckdownViewer from "./components/MarckdownViewer";
 import ListRepo from "./components/ListRepo";
 import ActiveTranslationSpaces from "./components/ActiveTranslationSpaces";
+import AdminDashboard from "./components/AdminDashboard";
+import { AuthProvider } from "./contexts/AuthContext";
 import { useParams } from "react-router-dom";
 
 function App() {
@@ -15,10 +17,11 @@ function App() {
   };
 
   return (
-    <HashRouter>
-      <div className="App">
-        <NavBar />
-        <Routes>
+    <AuthProvider>
+      <HashRouter>
+        <div className="App">
+          <NavBar />
+          <Routes>
           <Route
             path="/"
             element={
@@ -76,6 +79,10 @@ function App() {
               <MarckdownViewer fullLink="" />
             }
           />
+          <Route
+            path="/admin-dashboard"
+            element={<AdminDashboard />}
+          />
 
           {/* Dynamic routes for translation repositories */}
           <Route
@@ -83,8 +90,9 @@ function App() {
             element={<TranslationRepo />}
           />
         </Routes>
-      </div>
-    </HashRouter>
+        </div>
+      </HashRouter>
+    </AuthProvider>
   );
 }
 

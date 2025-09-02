@@ -12,12 +12,17 @@
     "gh-pages": "^6.1.1",
     "highlight.js": "^11.10.0",
     "marked-react": "^2.0.0",
+    "mermaid": "^11.10.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
     "react-dom": "^18.3.1",
     "react-lowlight": "^3.0.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
+    "rehype-highlight": "^7.0.2",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
