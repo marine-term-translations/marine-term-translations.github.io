@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Spinner, Alert } from "react-bootstrap";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import Lowlight from "react-lowlight";
 import "bootstrap/dist/css/bootstrap.min.css";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -9,6 +9,7 @@ import json from "highlight.js/lib/languages/json";
 import html from "highlight.js/lib/languages/xml";
 import yaml from "highlight.js/lib/languages/yaml";
 import "highlight.js/styles/default.css";
+import { MermaidDiagram } from "@lightenna/react-mermaid-diagram";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -69,7 +70,7 @@ const MarckdownViewer = ({ fullLink = null }) => {
       } catch (error) {
         console.error("Error fetching Marckdown:", error);
         setLoading(false);
-        setError(t('pages.errorLoadingContent'));
+        setError(t("pages.errorLoadingContent"));
       }
     };
 
@@ -86,7 +87,7 @@ const MarckdownViewer = ({ fullLink = null }) => {
   if (!fullLink) {
     return (
       <Container className="text-center mt-5 m-auto">
-        <Alert variant="danger">{t('pages.linkNotFilled')}</Alert>
+        <Alert variant="danger">{t("pages.linkNotFilled")}</Alert>
       </Container>
     );
   }
@@ -95,7 +96,7 @@ const MarckdownViewer = ({ fullLink = null }) => {
     return (
       <Container className="text-center m-5">
         <Spinner animation="border" />
-        <p>{t('pages.loading')}</p>
+        <p>{t("pages.loading")}</p>
       </Container>
     );
   }
@@ -109,7 +110,7 @@ const MarckdownViewer = ({ fullLink = null }) => {
   }
 
   if (!mdContent) {
-    return <div>{t('pages.errorLoadingContent')}</div>;
+    return <div>{t("pages.errorLoadingContent")}</div>;
   }
 
   const firstLine = getFirstLine(mdContent);
@@ -132,7 +133,7 @@ const MarckdownViewer = ({ fullLink = null }) => {
           code({ node, inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || "");
             if (match && match[1] === "mermaid") {
-              return <div className="mermaid">{children}</div>;
+              return <MermaidDiagram>{children}</MermaidDiagram>;
             }
             return !inline && match ? (
               <Lowlight
