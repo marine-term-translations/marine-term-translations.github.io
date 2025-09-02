@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Container, Spinner, Alert } from "react-bootstrap";
-import Markdown from "marked-react";
 import Lowlight from "react-lowlight";
 import "bootstrap/dist/css/bootstrap.min.css";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -13,7 +12,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
-import mermaid from "mermaid";
 
 Lowlight.registerLanguage("js", javascript);
 Lowlight.registerLanguage("javascript", javascript);
@@ -81,12 +79,6 @@ const MarckdownViewer = ({ fullLink = null }) => {
   const getFirstLine = (text) => {
     const lines = text.split("\n");
     return lines[0].slice(2);
-  };
-
-  const renderer = {
-    code(snippet, lang) {
-      return <Lowlight key={Math.random()} language={lang} value={snippet} />;
-    },
   };
 
   if (!fullLink) {
