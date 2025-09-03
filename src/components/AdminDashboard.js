@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Spinner, Alert, Button, Badge, Table, Form } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import apiService from '../services/apiService';
+import RepositoryCreation from './RepositoryCreation';
 
 const AdminDashboard = () => {
   const { isAuthenticated, token, user, login, logout, exchangeCodeForToken } = useAuth();
@@ -221,6 +222,8 @@ const AdminDashboard = () => {
             </div>
           ) : (
             <>
+              <RepositoryCreation token={token} />
+              
               <Card className="mb-4">
                 <Card.Header>
                   <h4>Organization Overview</h4>
