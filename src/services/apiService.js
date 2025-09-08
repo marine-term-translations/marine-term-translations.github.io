@@ -218,6 +218,17 @@ class ApiService {
     });
     return response.data;
   }
+
+  // Repository Creation API
+  async createRepository(token, vocabTag, language) {
+    const response = await axios.post(`${this.baseURL}/github/create-repository`, {
+      vocabTag,
+      language
+    }, {
+      headers: this.getHeaders(token)
+    });
+    return response.data;
+  }
 }
 
 // Export a singleton instance
