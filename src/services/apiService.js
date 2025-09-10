@@ -276,12 +276,12 @@ class ApiService {
   }
 
   // Repository Creation API
-  async createRepository(token, vocabTag, language) {
+  async createRepository(token, vocabularyName, languageTag) {
     const response = await axios.post(
       `${this.baseURL}/github/repos/create`,
       {
-        vocabTag,
-        language,
+        vocabularyName,
+        languageTag,
       },
       {
         headers: this.getHeaders(token),
