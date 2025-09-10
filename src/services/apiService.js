@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Backend API base URL - adjust as needed
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 
 /**
  * Centralized API service for all backend calls
@@ -14,9 +15,9 @@ class ApiService {
   // Helper method to get headers with authorization
   getHeaders(token) {
     return {
-      'Authorization': token,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      Authorization: token,
+      Accept: "application/json",
+      "Content-Type": "application/json",
     };
   }
 
@@ -33,7 +34,7 @@ class ApiService {
 
   async getUserInfo(token) {
     const response = await axios.get(`${this.baseURL}/github/user`, {
-      headers: this.getHeaders(token)
+      headers: this.getHeaders(token),
     });
     return response.data;
   }
@@ -41,50 +42,67 @@ class ApiService {
   // Organization Management APIs
   async getOrganizationMembers(token) {
     const response = await axios.get(`${this.baseURL}/github/org/members`, {
-      headers: this.getHeaders(token)
+      headers: this.getHeaders(token),
     });
     return response.data;
   }
 
   async getOrganizationTeams(token) {
     const response = await axios.get(`${this.baseURL}/github/org/teams`, {
-      headers: this.getHeaders(token)
+      headers: this.getHeaders(token),
     });
     return response.data;
   }
 
   async getTeamMembers(token, teamSlug) {
-    const response = await axios.get(`${this.baseURL}/github/org/teams/${teamSlug}/members`, {
-      headers: this.getHeaders(token)
-    });
+    const response = await axios.get(
+      `${this.baseURL}/github/org/teams/${teamSlug}/members`,
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.data;
   }
 
   async addUserToTeam(token, teamSlug, username) {
-    const response = await axios.put(`${this.baseURL}/github/org/teams/${teamSlug}/members/${username}`, {}, {
-      headers: this.getHeaders(token)
-    });
+    const response = await axios.put(
+      `${this.baseURL}/github/org/teams/${teamSlug}/members/${username}`,
+      {},
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.data;
   }
 
   async removeUserFromTeam(token, teamSlug, username) {
-    const response = await axios.delete(`${this.baseURL}/github/org/teams/${teamSlug}/members/${username}`, {
-      headers: this.getHeaders(token)
-    });
+    const response = await axios.delete(
+      `${this.baseURL}/github/org/teams/${teamSlug}/members/${username}`,
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.status === 204;
   }
 
   async inviteUserToOrganization(token, username) {
-    const response = await axios.put(`${this.baseURL}/github/org/members/${username}`, {}, {
-      headers: this.getHeaders(token)
-    });
+    const response = await axios.put(
+      `${this.baseURL}/github/org/members/${username}`,
+      {},
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.data;
   }
 
   async removeUserFromOrganization(token, username) {
-    const response = await axios.delete(`${this.baseURL}/github/org/members/${username}`, {
-      headers: this.getHeaders(token)
-    });
+    const response = await axios.delete(
+      `${this.baseURL}/github/org/members/${username}`,
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.status === 204;
   }
 
@@ -92,7 +110,7 @@ class ApiService {
   async getRepositoryBranches(token, repo) {
     const response = await axios.get(`${this.baseURL}/github/branches`, {
       headers: this.getHeaders(token),
-      params: { repo }
+      params: { repo },
     });
     return response.data;
   }
@@ -100,7 +118,7 @@ class ApiService {
   async getRepositoryTree(token, repo, branch) {
     const response = await axios.get(`${this.baseURL}/github/tree`, {
       headers: this.getHeaders(token),
-      params: { repo, branch }
+      params: { repo, branch },
     });
     return response.data;
   }
@@ -108,7 +126,7 @@ class ApiService {
   async getFileContent(token, repo, path, branch) {
     const response = await axios.get(`${this.baseURL}/github/content`, {
       headers: this.getHeaders(token),
-      params: { repo, path, branch }
+      params: { repo, path, branch },
     });
     return response.data;
   }
@@ -116,7 +134,7 @@ class ApiService {
   async getReviewers(token, repo) {
     const response = await axios.get(`${this.baseURL}/github/reviewers`, {
       headers: this.getHeaders(token),
-      params: { repo }
+      params: { repo },
     });
     return response.data;
   }
@@ -124,7 +142,7 @@ class ApiService {
   async getCommits(token, repo, branch, since) {
     const response = await axios.get(`${this.baseURL}/github/commits`, {
       headers: this.getHeaders(token),
-      params: { repo, branch, since }
+      params: { repo, branch, since },
     });
     return response.data;
   }
@@ -132,7 +150,7 @@ class ApiService {
   async getDetailedDiff(token, repo, branch) {
     const response = await axios.get(`${this.baseURL}/github/diff`, {
       headers: this.getHeaders(token),
-      params: { repo, branch }
+      params: { repo, branch },
     });
     return response.data;
   }
@@ -140,37 +158,51 @@ class ApiService {
   async checkConflicts(token, repo, branch) {
     const response = await axios.get(`${this.baseURL}/github/conflicts`, {
       headers: this.getHeaders(token),
-      params: { repo, branch }
+      params: { repo, branch },
     });
     return response.data;
   }
 
-  async updateFileWithTranslations(token, repo, translations, branch, filename) {
-    const response = await axios.put(`${this.baseURL}/github/update`, {
-      repo,
-      translations,
-      branch,
-      filename
-    }, {
-      headers: this.getHeaders(token)
-    });
+  async updateFileWithTranslations(
+    token,
+    repo,
+    translations,
+    branch,
+    filename
+  ) {
+    const response = await axios.put(
+      `${this.baseURL}/github/update`,
+      {
+        repo,
+        translations,
+        branch,
+        filename,
+      },
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.data;
   }
 
   async mergeBranch(token, repo, branch) {
-    const response = await axios.put(`${this.baseURL}/github/merge`, {
-      repo,
-      branch
-    }, {
-      headers: this.getHeaders(token)
-    });
+    const response = await axios.put(
+      `${this.baseURL}/github/merge`,
+      {
+        repo,
+        branch,
+      },
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.data;
   }
 
   async getPRComments(token, repo, prNumber) {
     const response = await axios.get(`${this.baseURL}/github/pr/comments`, {
       headers: this.getHeaders(token),
-      params: { repo, prNumber }
+      params: { repo, prNumber },
     });
     return response.data;
   }
@@ -178,55 +210,83 @@ class ApiService {
   async getChangedFiles(token, repo, branch) {
     const response = await axios.get(`${this.baseURL}/github/changed`, {
       headers: this.getHeaders(token),
-      params: { repo, branch }
+      params: { repo, branch },
     });
     return response.data;
   }
 
   async checkFileApproval(token, repo, prNumber, filePath, branch) {
-    const response = await axios.get(`${this.baseURL}/github/pr/${prNumber}/file/${encodeURIComponent(filePath)}/approved`, {
-      headers: this.getHeaders(token),
-      params: { repo, branch }
-    });
+    const response = await axios.get(
+      `${this.baseURL}/github/pr/${prNumber}/file/${encodeURIComponent(
+        filePath
+      )}/approved`,
+      {
+        headers: this.getHeaders(token),
+        params: { repo, branch },
+      }
+    );
     return response.data;
   }
 
   async approveFile(token, repo, prNumber, filePath, sha, lang, labelName) {
-    const response = await axios.post(`${this.baseURL}/github/pr/${prNumber}/file/${encodeURIComponent(filePath)}/approve`, {
-      repo,
-      sha,
-      lang,
-      label_name: labelName
-    }, {
-      headers: this.getHeaders(token)
-    });
+    const response = await axios.post(
+      `${this.baseURL}/github/pr/${prNumber}/file/${encodeURIComponent(
+        filePath
+      )}/approve`,
+      {
+        repo,
+        sha,
+        lang,
+        label_name: labelName,
+      },
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.data;
   }
 
-  async createPRComment(token, repo, pullNumber, comment, sha, path, line, side) {
-    const response = await axios.post(`${this.baseURL}/github/comment`, {
-      token,
-      pull_number: pullNumber,
-      repo,
-      comment,
-      path,
-      sha,
-      line,
-      side
-    }, {
-      headers: this.getHeaders(token)
-    });
+  async createPRComment(
+    token,
+    repo,
+    pullNumber,
+    comment,
+    sha,
+    path,
+    line,
+    side
+  ) {
+    const response = await axios.post(
+      `${this.baseURL}/github/comment`,
+      {
+        token,
+        pull_number: pullNumber,
+        repo,
+        comment,
+        path,
+        sha,
+        line,
+        side,
+      },
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.data;
   }
 
   // Repository Creation API
   async createRepository(token, vocabTag, language) {
-    const response = await axios.post(`${this.baseURL}/github/create-repository`, {
-      vocabTag,
-      language
-    }, {
-      headers: this.getHeaders(token)
-    });
+    const response = await axios.post(
+      `${this.baseURL}/github/repos/create`,
+      {
+        vocabTag,
+        language,
+      },
+      {
+        headers: this.getHeaders(token),
+      }
+    );
     return response.data;
   }
 }
