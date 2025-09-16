@@ -13,6 +13,44 @@ const ActiveTranslationSpaces = () => {
   useEffect(() => {
     const fetchActiveSpaces = async () => {
       try {
+        // Use mock data in development
+        const useMockData = process.env.NODE_ENV === 'development';
+        
+        if (useMockData) {
+          // Mock data for testing - same as ActiveTranslationSpaces
+          const mockRepos = [
+            {
+              name: 'P02-NL',
+              updated_at: '2024-01-15T10:30:00Z',
+              description: 'Dutch translation for P02 vocabulary collection',
+              html_url: 'https://github.com/marine-term-translations/P02-NL'
+            },
+            {
+              name: 'P02-FR',
+              updated_at: '2024-01-10T14:20:00Z',
+              description: 'French translation for P02 vocabulary collection',
+              html_url: 'https://github.com/marine-term-translations/P02-FR'
+            },
+            {
+              name: 'L05-DE',
+              updated_at: '2024-01-08T09:15:00Z',
+              description: 'German translation for L05 vocabulary collection',
+              html_url: 'https://github.com/marine-term-translations/L05-DE'
+            },
+            {
+              name: 'P01-ES',
+              updated_at: '2024-01-05T16:45:00Z',
+              description: 'Spanish translation for P01 vocabulary collection',
+              html_url: 'https://github.com/marine-term-translations/P01-ES'
+            }
+          ];
+          
+          setRepos(mockRepos);
+          setLoading(false);
+          setError(null);
+          return;
+        }
+
         const owner = "marine-term-translations";
         const response = await axios.get(
           `https://api.github.com/orgs/${owner}/repos`
@@ -114,6 +152,14 @@ const ActiveTranslationSpaces = () => {
                           className="btn btn-outline-secondary btn-sm ms-2"
                         >
                           {t('pages.github')}
+                        </Card.Link>
+                        <Card.Link
+                          href={`https://marine-term-translations.github.io/${repo.name}/LDES/latest.ttl`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-outline-info btn-sm ms-2"
+                        >
+                          {t('pages.ldes')}
                         </Card.Link>
                       </div>
                     </Card.Body>
