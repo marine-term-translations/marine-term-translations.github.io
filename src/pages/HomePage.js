@@ -2,6 +2,7 @@ import React from 'react';
 import SEOHelmet from '../components/SEOHelmet';
 import MarckdownViewer from '../components/MarckdownViewer';
 import ActiveTranslationSpaces from '../components/ActiveTranslationSpaces';
+import LeaderboardSection from '../components/LeaderboardSection';
 
 const HomePage = () => {
   return (
@@ -14,6 +15,7 @@ const HomePage = () => {
         type="website"
       />
       <MarckdownViewer fullLink="https://raw.githubusercontent.com/marine-term-translations/marine-term-translations.github.io/main/siteInfo.md" />
+      <LeaderboardSection />
       <ActiveTranslationSpaces />
     </>
   );
