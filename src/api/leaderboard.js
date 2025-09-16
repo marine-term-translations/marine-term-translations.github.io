@@ -9,48 +9,102 @@ const mockLeaderboardData = {
       totalEdits: 128,
       projects: {
         "project-A": 50,
-        "project-B": 78
-      }
+        "project-B": 78,
+      },
     },
     {
       userId: "coder123",
       totalEdits: 94,
       projects: {
         "project-A": 34,
-        "project-C": 60
-      }
+        "project-C": 60,
+      },
     },
     {
       userId: "devgirl",
       totalEdits: 72,
       projects: {
         "project-B": 25,
-        "project-C": 47
-      }
+        "project-C": 47,
+      },
     },
     {
       userId: "marinedev",
       totalEdits: 65,
       projects: {
         "project-A": 30,
-        "project-B": 35
-      }
+        "project-B": 35,
+      },
     },
     {
       userId: "translator99",
       totalEdits: 43,
       projects: {
         "project-C": 28,
-        "project-A": 15
-      }
-    }
-  ]
+        "project-A": 15,
+      },
+    },
+    {
+      userId: "scriptkid",
+      totalEdits: 38,
+      projects: {
+        "project-B": 20,
+        "project-C": 18,
+      },
+    },
+    {
+      userId: "bughunter",
+      totalEdits: 29,
+      projects: {
+        "project-A": 10,
+        "project-B": 19,
+      },
+    },
+    {
+      userId: "openSourceFan",
+      totalEdits: 22,
+      projects: {
+        "project-C": 22,
+      },
+    },
+    {
+      userId: "techwriter",
+      totalEdits: 18,
+      projects: {
+        "project-A": 8,
+        "project-C": 10,
+      },
+    },
+    {
+      userId: "designguru",
+      totalEdits: 15,
+      projects: {
+        "project-B": 15,
+      },
+    },
+    {
+      userId: "newbieDev",
+      totalEdits: 10,
+      projects: {
+        "project-A": 5,
+        "project-B": 5,
+      },
+    },
+    {
+      userId: "veteranCoder",
+      totalEdits: 7,
+      projects: {
+        "project-C": 7,
+      },
+    },
+  ],
 };
 
 /**
  * Simulate API delay for realistic loading behavior
  */
-const simulateDelay = (ms = 1000) => new Promise(resolve => setTimeout(resolve, ms));
+const simulateDelay = (ms = 1000) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * Fetch leaderboard data
@@ -59,11 +113,11 @@ const simulateDelay = (ms = 1000) => new Promise(resolve => setTimeout(resolve, 
 export const fetchLeaderboard = async () => {
   // Simulate API call delay
   await simulateDelay(1500);
-  
+
   // TODO: Replace with actual API call when backend is ready
   // const response = await axios.get(`${API_BASE}/leaderboard`);
   // return response.data;
-  
+
   return mockLeaderboardData.leaderboard;
 };
 
@@ -73,13 +127,13 @@ export const fetchLeaderboard = async () => {
  * @returns {Array} Formatted data for charts
  */
 export const formatChartData = (leaderboardData) => {
-  return leaderboardData.map(entry => ({
+  return leaderboardData.map((entry) => ({
     userId: entry.userId,
     totalEdits: entry.totalEdits,
-    topProject: Object.keys(entry.projects).reduce((a, b) => 
+    topProject: Object.keys(entry.projects).reduce((a, b) =>
       entry.projects[a] > entry.projects[b] ? a : b
     ),
-    topProjectEdits: Math.max(...Object.values(entry.projects))
+    topProjectEdits: Math.max(...Object.values(entry.projects)),
   }));
 };
 
@@ -90,19 +144,20 @@ export const formatChartData = (leaderboardData) => {
  */
 export const getProjectBreakdown = (leaderboardData) => {
   const allProjects = new Set();
-  
+
   // Collect all unique projects
-  leaderboardData.forEach(entry => {
-    Object.keys(entry.projects).forEach(project => {
+  leaderboardData.forEach((entry) => {
+    Object.keys(entry.projects).forEach((project) => {
       allProjects.add(project);
     });
   });
-  
-  return Array.from(allProjects).map(project => ({
+
+  return Array.from(allProjects).map((project) => ({
     project,
     totalEdits: leaderboardData.reduce((sum, entry) => {
       return sum + (entry.projects[project] || 0);
     }, 0),
-    contributors: leaderboardData.filter(entry => entry.projects[project]).length
+    contributors: leaderboardData.filter((entry) => entry.projects[project])
+      .length,
   }));
 };
