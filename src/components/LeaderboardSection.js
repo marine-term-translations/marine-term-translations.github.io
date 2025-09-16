@@ -2,14 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Leaderboard from './Leaderboard';
 import ContributionChart from './ContributionChart';
+import MockUserSelector from './MockUserSelector';
 import { LeaderboardWithChartSkeleton } from './SkeletonLoaders';
-import { fetchLeaderboard, formatChartData } from '../api/leaderboard';
+import { fetchLeaderboard, filterLeaderboardForDisplay, formatChartDataFromFiltered } from '../api/leaderboard';
+import { getCurrentUser } from '../utils/sessionUtils';
 
 const LeaderboardSection = () => {
-  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [fullLeaderboardData, setFullLeaderboardData] = useState([]);
+  const [displayLeaderboardData, setDisplayLeaderboardData] = useState([]);
   const [chartData, setChartData] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const updateDisplayData = React.useCallback((fullData, user) => {
+    // Filter data for display (top 5 + current user if not in top 5)
+    const filteredData = filterLeaderboardForDisplay(fullData, user);
+    setDisplayLeaderboardData(filteredData);
+    
+    // Format chart data from filtered data
+    const chartData = formatChartDataFromFiltered(filteredData);
+    setChartData(chartData);
+  }, []);
 
   useEffect(() => {
     const loadLeaderboardData = async () => {
@@ -21,9 +35,12 @@ const LeaderboardSection = () => {
         
         // Sort by total edits descending
         const sortedData = [...data].sort((a, b) => b.totalEdits - a.totalEdits);
+        setFullLeaderboardData(sortedData);
         
-        setLeaderboardData(sortedData);
-        setChartData(formatChartData(sortedData));
+        // Get current user and update display
+        const user = getCurrentUser();
+        setCurrentUser(user);
+        updateDisplayData(sortedData, user);
       } catch (err) {
         console.error('Error loading leaderboard data:', err);
         setError('Failed to load leaderboard data');
@@ -33,7 +50,12 @@ const LeaderboardSection = () => {
     };
 
     loadLeaderboardData();
-  }, []);
+  }, [updateDisplayData]);
+
+  const handleUserChange = (user) => {
+    setCurrentUser(user);
+    updateDisplayData(fullLeaderboardData, user);
+  };
 
   if (loading) {
     return (
@@ -65,11 +87,14 @@ const LeaderboardSection = () => {
         </p>
       </div>
       
+      <MockUserSelector onUserChange={handleUserChange} />
+      
       <Row className="g-4">
         <Col lg={6}>
           <Leaderboard 
-            data={leaderboardData} 
+            data={displayLeaderboardData} 
             title="Top Contributors"
+            currentUser={currentUser}
           />
         </Col>
         <Col lg={6}>
@@ -83,6 +108,9 @@ const LeaderboardSection = () => {
       <div className="text-center mt-4">
         <small className="text-muted">
           🔄 Data refreshes automatically • Last updated: {new Date().toLocaleDateString()}
+          {currentUser && (
+            <span className="ms-2">• Showing personalized view for @{currentUser.login}</span>
+          )}
         </small>
       </div>
     </Container>

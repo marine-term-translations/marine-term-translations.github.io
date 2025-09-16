@@ -1,17 +1,27 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const ContributionChart = ({ data = [], title = "Contribution Overview" }) => {
   const formatTooltip = (value, name, props) => {
     if (name === 'totalEdits') {
-      return [`${value} edits`, 'Total Edits'];
+      const isCurrentUser = props.payload?.isCurrentUser;
+      const label = isCurrentUser ? `${value} edits (You)` : `${value} edits`;
+      return [label, 'Total Edits'];
     }
     return [value, name];
   };
 
   const formatXAxisLabel = (tickItem) => {
     return tickItem.length > 10 ? `${tickItem.substring(0, 10)}...` : tickItem;
+  };
+
+  // Custom bar colors - highlight current user
+  const getBarColor = (entry, index) => {
+    if (entry.isCurrentUser) {
+      return '#29b6f6'; // Blue for current user
+    }
+    return `url(#colorGradient-${index})`; // Gradient for others
   };
 
   return (
@@ -65,16 +75,26 @@ const ContributionChart = ({ data = [], title = "Contribution Overview" }) => {
               />
               <Bar 
                 dataKey="totalEdits" 
-                fill="url(#colorGradient)"
                 radius={[4, 4, 0, 0]}
                 stroke="#667eea"
                 strokeWidth={1}
-              />
+              >
+                {data.map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={getBarColor(entry, index)}
+                    stroke={entry.isCurrentUser ? '#0277bd' : '#667eea'}
+                    strokeWidth={entry.isCurrentUser ? 2 : 1}
+                  />
+                ))}
+              </Bar>
               <defs>
-                <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#667eea" stopOpacity={0.9}/>
-                  <stop offset="95%" stopColor="#764ba2" stopOpacity={0.7}/>
-                </linearGradient>
+                {data.map((entry, index) => (
+                  <linearGradient key={`gradient-${index}`} id={`colorGradient-${index}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#667eea" stopOpacity={0.9}/>
+                    <stop offset="95%" stopColor="#764ba2" stopOpacity={0.7}/>
+                  </linearGradient>
+                ))}
               </defs>
             </BarChart>
           </ResponsiveContainer>

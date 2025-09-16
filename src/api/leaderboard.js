@@ -161,3 +161,78 @@ export const getProjectBreakdown = (leaderboardData) => {
       .length,
   }));
 };
+
+/**
+ * Filter leaderboard data for display (top 5 + current user if not in top 5)
+ * @param {Array} sortedData - Leaderboard data sorted by total edits
+ * @param {Object} currentUser - Current logged-in user (can be null)
+ * @returns {Array} Filtered data for display
+ */
+export const filterLeaderboardForDisplay = (sortedData, currentUser = null) => {
+  if (!sortedData || sortedData.length === 0) return [];
+  
+  const TOP_COUNT = 5;
+  const topFive = sortedData.slice(0, TOP_COUNT);
+  
+  // If no user is logged in or we have 5 or fewer entries, just return the top entries
+  if (!currentUser || sortedData.length <= TOP_COUNT) {
+    return topFive;
+  }
+  
+  // Check if current user is in top 5
+  const userInTopFive = topFive.some(entry => entry.userId === currentUser.login);
+  
+  if (userInTopFive) {
+    // User is already in top 5, return top 5
+    return topFive;
+  }
+  
+  // Find current user in the full list
+  const currentUserIndex = sortedData.findIndex(entry => entry.userId === currentUser.login);
+  
+  if (currentUserIndex === -1) {
+    // Current user not found in leaderboard, return top 5
+    return topFive;
+  }
+  
+  // Return top 5 + separator + current user
+  const currentUserData = sortedData[currentUserIndex];
+  return [
+    ...topFive,
+    { 
+      userId: '...', 
+      totalEdits: 0, 
+      projects: {}, 
+      isSeparator: true,
+      separatorText: `... ${currentUserIndex - TOP_COUNT} more contributors ...`
+    },
+    { 
+      ...currentUserData, 
+      isCurrentUser: true,
+      userRank: currentUserIndex + 1
+    }
+  ];
+};
+
+/**
+ * Filter chart data based on filtered leaderboard data
+ * @param {Array} filteredLeaderboardData - Filtered leaderboard data
+ * @returns {Array} Formatted chart data excluding separators
+ */
+export const formatChartDataFromFiltered = (filteredLeaderboardData) => {
+  return filteredLeaderboardData
+    .filter(entry => !entry.isSeparator) // Remove separator entries
+    .map(entry => ({
+      userId: entry.userId,
+      totalEdits: entry.totalEdits,
+      topProject: entry.projects && Object.keys(entry.projects).length > 0 
+        ? Object.keys(entry.projects).reduce((a, b) => 
+            entry.projects[a] > entry.projects[b] ? a : b
+          )
+        : 'N/A',
+      topProjectEdits: entry.projects && Object.keys(entry.projects).length > 0 
+        ? Math.max(...Object.values(entry.projects))
+        : 0,
+      isCurrentUser: entry.isCurrentUser || false
+    }));
+};
