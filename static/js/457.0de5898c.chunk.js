@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmarine_term_translations=self.webpackChunkmarine_term_translations||[]).push([[457],{1457:(e,a,r)=>{r.d(a,{createPieServices:()=>s.f});var s=r(6695);r(4455)}}]);

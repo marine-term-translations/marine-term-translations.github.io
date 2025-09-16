@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmarine_term_translations=self.webpackChunkmarine_term_translations||[]).push([[297],{1297:(e,r,t)=>{t.d(r,{createArchitectureServices:()=>a.S});var a=t(4564);t(4455)}}]);
