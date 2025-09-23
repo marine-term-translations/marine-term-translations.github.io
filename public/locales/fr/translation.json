@@ -21,6 +21,7 @@
     "lastUpdated": "Dernière mise à jour : {{date}}",
     "translate": "Traduire",
     "github": "GitHub",
+    "ldes": "LDES",
     "searchRepositories": "Rechercher des dépôts",
     "failedToFetch": "Échec de récupération de la liste des dépôts.",
     "failedToFetchSpaces": "Échec de récupération des espaces de traduction actifs.",
