@@ -289,6 +289,14 @@ class ApiService {
     );
     return response.data;
   }
+
+  // Leaderboard API
+  async getLeaderboard(token) {
+    const response = await axios.get(`${this.baseURL}/leaderboard`, {
+      headers: this.getHeaders(token),
+    });
+    return response.data;
+  }
 }
 
 // Export a singleton instance
