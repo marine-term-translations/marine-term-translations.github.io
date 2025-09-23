@@ -1,10 +1,12 @@
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown, Button, Image } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useAuth } from '../contexts/AuthContext';
 
 const NavBar = () => {
     const { t } = useTranslation();
+    const { isAuthenticated, user, login, logout } = useAuth();
 
     return(
         <Navbar expand="lg" className="bg-body-tertiary" sticky="top">
@@ -30,6 +32,60 @@ const NavBar = () => {
                     </Nav>
                     <Nav className="ms-auto">
                         <LanguageSwitcher />
+                        {isAuthenticated ? (
+                            <NavDropdown
+                                title={
+                                    <div className="d-flex align-items-center">
+                                        <Image
+                                            src={user?.avatar_url}
+                                            alt={user?.name || user?.login}
+                                            width="32"
+                                            height="32"
+                                            roundedCircle
+                                            className="me-2"
+                                            onError={(e) => {
+                                                e.target.src = `https://github.com/identicons/${user?.login || 'user'}.png`;
+                                            }}
+                                        />
+                                        <span className="d-none d-sm-inline">
+                                            {user?.name || user?.login}
+                                        </span>
+                                    </div>
+                                }
+                                id="user-nav-dropdown"
+                                align="end"
+                            >
+                                <NavDropdown.Item>
+                                    <div className="d-flex align-items-center">
+                                        <Image
+                                            src={user?.avatar_url}
+                                            alt={user?.name || user?.login}
+                                            width="24"
+                                            height="24"
+                                            roundedCircle
+                                            className="me-2"
+                                        />
+                                        <div>
+                                            <div className="fw-bold">{user?.name || user?.login}</div>
+                                            <small className="text-muted">@{user?.login}</small>
+                                        </div>
+                                    </div>
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={logout}>
+                                    🚪 Sign out
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        ) : (
+                            <Button 
+                                variant="outline-primary" 
+                                size="sm"
+                                onClick={login}
+                                className="ms-2"
+                            >
+                                🔑 Login
+                            </Button>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

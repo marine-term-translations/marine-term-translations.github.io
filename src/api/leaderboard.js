@@ -1,5 +1,5 @@
 // API layer for leaderboard data
-// This will be replaced with actual API calls when the backend is ready
+// import apiService from '../services/apiService'; // TODO: Uncomment when backend is ready
 
 // Mock data for demonstration
 const mockLeaderboardData = {
@@ -107,18 +107,44 @@ const simulateDelay = (ms = 1000) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
- * Fetch leaderboard data
+ * Fetch leaderboard data (unauthenticated - returns mock data)
  * @returns {Promise<Array>} Array of leaderboard entries
  */
 export const fetchLeaderboard = async () => {
   // Simulate API call delay
   await simulateDelay(1500);
 
-  // TODO: Replace with actual API call when backend is ready
-  // const response = await axios.get(`${API_BASE}/leaderboard`);
-  // return response.data;
-
+  // Return mock data for unauthenticated users
   return mockLeaderboardData.leaderboard;
+};
+
+/**
+ * Fetch leaderboard data with authentication
+ * @param {string} token - Authentication token
+ * @returns {Promise<Array>} Array of leaderboard entries from backend API
+ */
+export const fetchLeaderboardAuthenticated = async (token) => {
+  try {
+    // Simulate API call delay (remove when real API is implemented)
+    await simulateDelay(1000);
+    
+    // TODO: Replace with actual API call when backend is ready
+    // const response = await apiService.getLeaderboard(token);
+    // return response.data;
+    
+    // For now, return enhanced mock data to simulate authenticated experience
+    // In real implementation, this would come from the backend API
+    const enhancedMockData = [...mockLeaderboardData.leaderboard];
+    
+    // Add a note that this is authenticated data
+    console.log('Fetching authenticated leaderboard data with token:', token?.substring(0, 10) + '...');
+    
+    return enhancedMockData;
+  } catch (error) {
+    console.error('Error fetching authenticated leaderboard:', error);
+    // Fall back to mock data if API call fails
+    return mockLeaderboardData.leaderboard;
+  }
 };
 
 /**
