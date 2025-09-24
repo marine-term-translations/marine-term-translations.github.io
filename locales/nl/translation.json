@@ -21,6 +21,7 @@
     "lastUpdated": "Laatst bijgewerkt: {{date}}",
     "translate": "Vertalen",
     "github": "GitHub",
+    "ldes": "LDES",
     "searchRepositories": "Zoek repositories",
     "failedToFetch": "Fout bij ophalen van de lijst met repositories.",
     "failedToFetchSpaces": "Fout bij ophalen van actieve vertaalruimtes.",
