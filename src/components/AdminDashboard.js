@@ -1,11 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Spinner, Alert, Button, Badge, Table, Form } from 'react-bootstrap';
-import { useAuth } from '../contexts/AuthContext';
-import apiService from '../services/apiService';
-import RepositoryCreation from './RepositoryCreation';
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Spinner,
+  Alert,
+  Button,
+  Badge,
+  Table,
+  Form,
+} from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
+import apiService from "../services/apiService";
+import RepositoryCreation from "./RepositoryCreation";
 
 const AdminDashboard = () => {
-  const { isAuthenticated, token, user, login, logout, exchangeCodeForToken } = useAuth();
+  const { isAuthenticated, token, user, login, logout, exchangeCodeForToken } =
+    useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,27 +33,29 @@ const AdminDashboard = () => {
       // Load organization members and teams using backend API
       const [membersData, teamsData] = await Promise.all([
         apiService.getOrganizationMembers(token),
-        apiService.getOrganizationTeams(token)
+        apiService.getOrganizationTeams(token),
       ]);
 
       // For each member, get their team memberships from the teams data
-      const membersWithTeams = membersData.map(member => {
+      const membersWithTeams = membersData.map((member) => {
         // Find teams where this member is included
-        const memberTeams = teamsData.filter(team => 
-          team.members && team.members.some(teamMember => teamMember.login === member.login)
+        const memberTeams = teamsData.filter(
+          (team) =>
+            team.members &&
+            team.members.some((teamMember) => teamMember.login === member.login)
         );
-        
+
         return {
           ...member,
-          teams: memberTeams
+          teams: memberTeams,
         };
       });
 
       setOrgMembers(membersWithTeams);
       setTeams(teamsData);
     } catch (error) {
-      console.error('Error loading organization data:', error);
-      setError('Failed to load organization data');
+      console.error("Error loading organization data:", error);
+      setError("Failed to load organization data");
     } finally {
       setLoadingMembers(false);
     }
@@ -50,19 +64,23 @@ const AdminDashboard = () => {
   const checkAdminStatus = React.useCallback(async () => {
     try {
       setLoading(true);
-      
+
       // Try to load organization data - if successful, user has admin access
       // The backend endpoints will handle authorization validation
       await loadOrganizationData();
       setIsAdmin(true);
     } catch (error) {
-      console.error('Error checking admin status:', error);
+      console.error("Error checking admin status:", error);
       if (error.response?.status === 404) {
-        setError('You are not a member of the marine-term-translations organization');
+        setError(
+          "You are not a member of the marine-term-translations organization"
+        );
       } else if (error.response?.status === 403) {
-        setError('You do not have permission to access organization information');
+        setError(
+          "You do not have permission to access organization information"
+        );
       } else {
-        setError('Failed to verify organization membership');
+        setError("Failed to verify organization membership");
       }
       setIsAdmin(false);
     } finally {
@@ -70,17 +88,24 @@ const AdminDashboard = () => {
     }
   }, [loadOrganizationData]);
 
-  const handleOAuthCallback = React.useCallback(async (code) => {
-    try {
-      setLoading(true);
-      await exchangeCodeForToken(code);
-      // Remove code from URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } catch (error) {
-      setError('Failed to authenticate with GitHub');
-      setLoading(false);
-    }
-  }, [exchangeCodeForToken]);
+  const handleOAuthCallback = React.useCallback(
+    async (code) => {
+      try {
+        setLoading(true);
+        await exchangeCodeForToken(code);
+        // Remove code from URL
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname
+        );
+      } catch (error) {
+        setError("Failed to authenticate with GitHub");
+        setLoading(false);
+      }
+    },
+    [exchangeCodeForToken]
+  );
 
   useEffect(() => {
     if (isAuthenticated && token && user) {
@@ -93,23 +118,21 @@ const AdminDashboard = () => {
   useEffect(() => {
     // Handle OAuth callback
     const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    
+    const code = urlParams.get("code");
+
     if (code && !isAuthenticated) {
       handleOAuthCallback(code);
     }
   }, [isAuthenticated, handleOAuthCallback]);
 
-
-
   const handleTeamMembershipChange = async (memberLogin, teamSlug, action) => {
     const actionKey = `${memberLogin}-${teamSlug}`;
-    setActionLoading(prev => ({ ...prev, [actionKey]: true }));
+    setActionLoading((prev) => ({ ...prev, [actionKey]: true }));
 
     try {
-      if (action === 'add') {
+      if (action === "add") {
         await apiService.addUserToTeam(token, teamSlug, memberLogin);
-      } else if (action === 'remove') {
+      } else if (action === "remove") {
         await apiService.removeUserFromTeam(token, teamSlug, memberLogin);
       }
 
@@ -119,7 +142,7 @@ const AdminDashboard = () => {
       console.error(`Error ${action}ing team membership:`, error);
       setError(`Failed to ${action} team membership`);
     } finally {
-      setActionLoading(prev => ({ ...prev, [actionKey]: false }));
+      setActionLoading((prev) => ({ ...prev, [actionKey]: false }));
     }
   };
 
@@ -127,7 +150,7 @@ const AdminDashboard = () => {
     try {
       await login();
     } catch (error) {
-      setError('Failed to initiate GitHub login');
+      setError("Failed to initiate GitHub login");
     }
   };
 
@@ -189,7 +212,9 @@ const AdminDashboard = () => {
             <Alert variant="warning">
               <Alert.Heading>Admin Access Required</Alert.Heading>
               <p>You must be an organization admin to access this page.</p>
-              <p>Current user: <strong>{user?.login}</strong></p>
+              <p>
+                Current user: <strong>{user?.login}</strong>
+              </p>
               <hr />
               <Button variant="outline-warning" onClick={logout}>
                 Sign out
@@ -208,7 +233,9 @@ const AdminDashboard = () => {
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h1>Admin Dashboard</h1>
             <div>
-              <span className="me-3">Welcome, <strong>{user?.login}</strong></span>
+              <span className="me-3">
+                Welcome, <strong>{user?.login}</strong>
+              </span>
               <Button variant="outline-secondary" size="sm" onClick={logout}>
                 Sign out
               </Button>
@@ -223,7 +250,7 @@ const AdminDashboard = () => {
           ) : (
             <>
               <RepositoryCreation token={token} />
-              
+
               <Card className="mb-4">
                 <Card.Header>
                   <h4>Organization Overview</h4>
@@ -231,10 +258,15 @@ const AdminDashboard = () => {
                 <Card.Body>
                   <Row>
                     <Col md={6}>
-                      <h6>Total Members: <Badge bg="primary">{orgMembers.length}</Badge></h6>
+                      <h6>
+                        Total Members:{" "}
+                        <Badge bg="primary">{orgMembers.length}</Badge>
+                      </h6>
                     </Col>
                     <Col md={6}>
-                      <h6>Total Teams: <Badge bg="info">{teams.length}</Badge></h6>
+                      <h6>
+                        Total Teams: <Badge bg="info">{teams.length}</Badge>
+                      </h6>
                     </Col>
                   </Row>
                 </Card.Body>
@@ -258,21 +290,27 @@ const AdminDashboard = () => {
                         <tr key={member.login}>
                           <td>
                             <div className="d-flex align-items-center">
-                              <img 
-                                src={member.avatar_url} 
+                              <img
+                                src={member.avatar_url}
                                 alt={member.login}
-                                width="24"
-                                height="24"
-                                className="rounded me-2"
-                                style={{ 
-                                  objectFit: 'cover',
-                                  flexShrink: 0
+                                style={{
+                                  width: "34px",
+                                  height: "34px",
+                                  objectFit: "cover",
+                                  flexShrink: 0,
                                 }}
+                                className="rounded me-2"
                               />
                               <div>
-                                <div><strong>{member.login}</strong></div>
+                                <div>
+                                  <strong>{member.login}</strong>
+                                </div>
                                 <small className="text-muted">
-                                  <a href={member.html_url} target="_blank" rel="noopener noreferrer">
+                                  <a
+                                    href={member.html_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
                                     GitHub Profile
                                   </a>
                                 </small>
@@ -282,9 +320,9 @@ const AdminDashboard = () => {
                           <td>
                             {member.teams.length > 0 ? (
                               member.teams.map((team) => (
-                                <Badge 
-                                  key={team.slug} 
-                                  bg="secondary" 
+                                <Badge
+                                  key={team.slug}
+                                  bg="secondary"
                                   className="me-1"
                                 >
                                   {team.name}
@@ -292,9 +330,22 @@ const AdminDashboard = () => {
                                     variant="link"
                                     size="sm"
                                     className="p-0 ms-1"
-                                    style={{ color: 'white', textDecoration: 'none' }}
-                                    onClick={() => handleTeamMembershipChange(member.login, team.slug, 'remove')}
-                                    disabled={actionLoading[`${member.login}-${team.slug}`]}
+                                    style={{
+                                      color: "white",
+                                      textDecoration: "none",
+                                    }}
+                                    onClick={() =>
+                                      handleTeamMembershipChange(
+                                        member.login,
+                                        team.slug,
+                                        "remove"
+                                      )
+                                    }
+                                    disabled={
+                                      actionLoading[
+                                        `${member.login}-${team.slug}`
+                                      ]
+                                    }
                                   >
                                     ×
                                   </Button>
@@ -307,23 +358,32 @@ const AdminDashboard = () => {
                           <td>
                             <Form.Select
                               size="sm"
-                              style={{ width: '200px' }}
+                              style={{ width: "200px" }}
                               onChange={(e) => {
                                 if (e.target.value) {
-                                  handleTeamMembershipChange(member.login, e.target.value, 'add');
-                                  e.target.value = '';
+                                  handleTeamMembershipChange(
+                                    member.login,
+                                    e.target.value,
+                                    "add"
+                                  );
+                                  e.target.value = "";
                                 }
                               }}
                             >
                               <option value="">Add to team...</option>
                               {teams
-                                .filter(team => !member.teams.some(memberTeam => memberTeam.slug === team.slug))
-                                .map(team => (
+                                .filter(
+                                  (team) =>
+                                    !member.teams.some(
+                                      (memberTeam) =>
+                                        memberTeam.slug === team.slug
+                                    )
+                                )
+                                .map((team) => (
                                   <option key={team.slug} value={team.slug}>
                                     {team.name}
                                   </option>
-                                ))
-                              }
+                                ))}
                             </Form.Select>
                           </td>
                         </tr>
