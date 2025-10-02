@@ -11,7 +11,8 @@
     "ghAction": "GitHub actie informatie",
     "general": "Algemene pagina informatie",
     "instruction": "Instructies voor repository",
-    "adminDashboard": "Admin Dashboard"
+    "adminDashboard": "Admin Dashboard",
+    "reportIssue": "Probleem Melden"
   },
   "pages": {
     "activeTranslationSpaces": "Actieve Vertaalruimtes",

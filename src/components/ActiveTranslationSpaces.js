@@ -11,6 +11,9 @@ const ActiveTranslationSpaces = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const CACHE_KEY = 'activeTranslationSpaces';
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
     const fetchActiveSpaces = async () => {
       try {
         // Use mock data in development
@@ -51,6 +54,26 @@ const ActiveTranslationSpaces = () => {
           return;
         }
 
+        // Check for cached data
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        if (cachedData) {
+          try {
+            const { timestamp, data } = JSON.parse(cachedData);
+            const now = Date.now();
+            
+            // Use cached data if it's fresh (within CACHE_DURATION)
+            if (now - timestamp < CACHE_DURATION) {
+              setRepos(data);
+              setLoading(false);
+              setError(null);
+              return;
+            }
+          } catch (parseError) {
+            // If cache is corrupted, continue to fetch fresh data
+            console.warn("Failed to parse cached data:", parseError);
+          }
+        }
+
         const owner = "marine-term-translations";
         const response = await axios.get(
           `https://api.github.com/orgs/${owner}/repos`
@@ -78,6 +101,12 @@ const ActiveTranslationSpaces = () => {
             html_url: repo.html_url,
           }))
           .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort by latest update
+
+        // Cache the fetched data
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          timestamp: Date.now(),
+          data: activeRepos
+        }));
 
         setRepos(activeRepos);
         setLoading(false);

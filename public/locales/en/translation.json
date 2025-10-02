@@ -11,7 +11,8 @@
     "ghAction": "GitHub action's information",
     "general": "General page information",
     "instruction": "Instruction for repository",
-    "adminDashboard": "Admin Dashboard"
+    "adminDashboard": "Admin Dashboard",
+    "reportIssue": "Report Issue"
   },
   "pages": {
     "activeTranslationSpaces": "Active Translation Spaces",

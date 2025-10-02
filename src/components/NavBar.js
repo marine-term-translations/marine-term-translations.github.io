@@ -63,6 +63,17 @@ const NavBar = () => {
             </NavDropdown>
           </Nav>
           <Nav className="ms-auto">
+            <Button
+              variant="outline-primary"
+              size="sm"
+              href="https://github.com/marine-term-translations/marine-term-translations.github.io/issues/new"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="me-2"
+              title={t("navigation.reportIssue")}
+            >
+              🐛 {t("navigation.reportIssue")}
+            </Button>
             <LanguageSwitcher />
             {isAuthenticated ? (
               <NavDropdown
