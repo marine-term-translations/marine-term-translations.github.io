@@ -11,7 +11,8 @@
     "ghAction": "Informations sur les actions GitHub",
     "general": "Informations générales de la page",
     "instruction": "Instructions pour le dépôt",
-    "adminDashboard": "Tableau de Bord Admin"
+    "adminDashboard": "Tableau de Bord Admin",
+    "reportIssue": "Signaler un Problème"
   },
   "pages": {
     "activeTranslationSpaces": "Espaces de Traduction Actifs",
