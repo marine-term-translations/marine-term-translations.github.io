@@ -26,9 +26,6 @@ const NavBar = () => {
               title={t("navigation.translator")}
               id="translator-nav-dropdown"
             >
-              <NavDropdown.Item href="#list">
-                {t("navigation.listRepo")}
-              </NavDropdown.Item>
               <NavDropdown.Item href="#about">
                 {t("navigation.aboutUse")}
               </NavDropdown.Item>
