@@ -4,14 +4,15 @@
     "translator": "Translator",
     "developer": "Developer",
     "administrator": "Administrator",
-    "listRepo": "List of repository",
+    "listRepo": "List of repositories",
     "aboutUse": "About the use of translate site",
     "frontEnd": "Front-End's information",
     "backEnd": "Back-End's information",
     "ghAction": "GitHub action's information",
     "general": "General page information",
     "instruction": "Instruction for repository",
-    "adminDashboard": "Admin Dashboard"
+    "adminDashboard": "Admin Dashboard",
+    "reportIssue": "Report Issue"
   },
   "pages": {
     "activeTranslationSpaces": "Active Translation Spaces",
